@@ -1,0 +1,25 @@
+function fixing()
+% Help
+% possible commands
+% possible measurements
+% instructions for adding devices
+
+% creating global structures. gui holds graphic objects, data holds
+%instruments and parameters
+graph_path='C:\Users\Steinberg-lab\Google Drive\Steinberg Lab\remote control\measuring menu - split\graphics';
+other_path='C:\Users\Steinberg-lab\Google Drive\Steinberg Lab\remote control\measuring menu - split\other';
+addpath(graph_path,other_path);
+
+data_object=figure('Visible','Off');
+data = CreateData();
+guidata(data_object,data);
+gui_object=figure('Visible','Off');
+gui = CreateInterface(data);
+guidata(gui_object,gui);
+
+set_callbacks(data_object,gui_object);
+
+% starts the timer
+start(data.CommandTimer);
+
+end % EOF

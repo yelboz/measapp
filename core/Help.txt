@@ -1,0 +1,262 @@
+HELP:
+~~~~
+
+Table of Contents:
+
+	-operation manual
+	-command examples
+	-available measurement properties
+	-adding a new instrument
+	-general script idea
+	-description of data file by version
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-operation manual:
+ ~~~~~~~~~~~~~~~~
+
+	Instrument Initialization:
+	~~~~~~~~~~~~~~~~~~~~~~~~~
+	after opening the menu, the user can set the connected instruments' parameters
+	by pressing the 'Set Instruments' button. a new window will open, showing the 
+	instruments and their measurable properties. the set window will open after choosing the 
+	instrument and pressing the 'Set' button. each instrument has its own custom menu.
+	after setting all desired parameter the 'Set' button will apply the changes.
+
+	Measurement Initialization:
+	~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Next, pressing the 'Measure' tab, the user writes all the preoperties to be measured.
+	the list will consist of entries in the format of 'instrument_name.property' (examples 
+	shown below), separated by commas - ','. an illegal entry will pop up a warning.
+
+	The 'Sweep' tab allows the user to change the sweep properties. 'Time Step' sets
+	the pause between iterations in Sweep, 'Double Time Step' sets the pause between
+	the bigger iterations in Double Sweep. 'Double Sweep Mode' decides the way that the 
+	sweep vectors are swept. 'there and back' will also affect the single sweep.
+
+	The 'File' tab is used to set the save folder and file name. 'Choose folder' button
+	will open a window for choosing the saving path, the component name sets the file name
+	and a running index is added to prevent overwriting. the comment will be saved in the data
+	file, and comments could be added after measurement using the 'add comment to last file'
+	button after writing the new comment. the updated name is shown in the window.
+	the file will be saved as a mat file according to the data file's version (shown in this file to).
+
+	Commands: (examples shown below)
+	~~~~~~~~
+	Commands are given through the command line and can be 'written' by user, dropdown list
+	(during a session all commands are saved in this list) or using a batch file (will be explained
+	later). the commands are checked and a message pops up if the command is illegal.
+	there are a few cases of commands:
+		-'set ...' is used to change instruments' live properties such as voltage,
+		 frequency etc. 
+		-'sweep ...' is used to do sweep measurements over one or two sweeep vectors.
+		-'move ...' is used to move an instrument through a vector of points without measuring.
+		-'record num' is used to take a measurement at equal time steps set by 'num'.
+		 'record' will give the default 1 second time-step.
+
+	Continue measurement:
+	~~~~~~~~~~~~~~~~~~~~
+	To continue the previous measurement (extend sweep vector ect.), the user can check the ''caontinue
+	last measurement' check box or write the command 'continuelast' (used in batch files). doing that 
+	will add the new data to the previous file. measured properties cannot be changed and the sweeped
+	property should stay the same.
+
+	Live plots:
+	~~~~~~~~~~
+	During the measurement, the figure will show the plot of two selected vectors from the sweeped 
+	and measured properties. right-click on the plot will allow to open a still figure with matlab
+	edit tools, or a new figure with the derivative of the current plot. the user can add several 
+	live plots by pressing the 'add live plot' button.
+
+	Batch file:
+	~~~~~~~~~~
+	For long measurements the user can write a batch file - a list of commands to be executed one after the other.
+	the command must have the preset command syntax. in order to stop a recording during a batch file
+	the user writes the 'stoprecord' command. in order to continue the last measurement the user writes the 
+	'continuelast' command.
+	The batch file is loaded using the dropdown 'file' menu. after loading the file will be checked line
+	by line. in order to run the batch file, the user should set all the relevant measurement parameters
+	(measured properties, instrument initialization etc.) and then in the same menu press 'Run Batch'.
+	after the batch file is complete a notice will popup.
+
+	Loading measurements:
+	~~~~~~~~~~~~~~~~~~~~
+	A loading measurement menu appears by pressing the 'Load Measurement' button In the 'file' 
+	dropdown menu. in this menu, the user can load previous measurements, view their details and 
+	data vectors. right-click on the figure will allow to open the plot in a new matlab figure, 
+	or to add this plot to a joint plot table. after checking the desired plots in the table 
+	a joint plot can be made by pressing the 'Open Joint Figure' button.
+
+	Stop:
+	~~~~
+	The 'STOP' button has several uses:
+		-stop a recording
+		-stop operation during a sweep/move (if something went wrong etc.)
+		-stop operation during magnet waits.
+
+	Refresh:
+	~~~~~~~
+	The 'Refresh' button is used for recovering the application after internal or externel errors.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+-command examples:
+ ~~~~~~~~~~~~~~~~
+	set keithley1.dcv num
+	set keithley1.dcc num
+	set keithley1 returntozero on/off
+
+	set keithley2.dcv num
+	set keithley2.dcc num
+	set keithley2 returntozero on/off
+
+	set lockin.acv num
+	set lockin.freq num
+
+	sweep keithley1.dcv 0 1 5
+	sweep keithley1.dcv 0 1 5 keithley2.dcv 0 1 5 
+
+	Move keithley1.dcv 0 1 10
+
+	sweep caen.dcv0set 0 1 5
+
+	record 'timestep' 'length'  ('' are optional)
+
+	set magnet.sweep zero fast
+	set magnet.sweep up fast
+	set magnet.sweep down
+
+	set magnet.ulim 1
+
+	set magnet.pshtr off
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-available measurement properties:
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	keithley1.dcc,keithley2.dcc,keithley1.dcv,keithley2.dcv,keithley1.diptemp,
+	lockin1.r,lockin1.y,lockin1.x,lockin1.phase,
+	lakes336.ctemp,lakes336.htemp,lakes336.btemp,
+	magnet.field,dmm.dcc,dmm.dcv
+	caen.dcv0,caen.dcv1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-adding a new instrument:
+ ~~~~~~~~~~~~~~~~~~~~~~~
+
+	add the instrument to the mat-file 'instruments', which contens the following fields:
+		instrument's name, interface, address, a list of measurable properties and a list of sweepable 
+		properties.
+	'MeasureList' - add suitable new legal entries.
+
+	if this is a new type of instrument (and/or interface):
+
+	1. if this is a new type of instrument, in the function 'CreateInstrument',
+		add the appropriate object creation and save the desired metadata in obj.userdata.
+	2. 'QueryMeta' - add a case for the new type of instrument
+	3. 'SetInstrumentMenu' - add an interactive menu for instrument initialization.
+		'SetInstrument' - add a case for the new type of instrument
+	4. 'SetWords' - add set commands if needed
+	5. 'IsCommandGood' - add case for new commands (including sweep and move sections)
+	6. Measuring : 'MeasureThis' - add a case for the new type of instrument
+	7. Sweeping : 'NextMove' - add a case for the new type of instrument
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-general script idea:
+ ~~~~~~~~~~~~~~~~~~~
+
+	the main file witch runs the gui is 'MeasApp.m'. it creats the data and graphic structs,
+	sets the callbacks for most of the buttons and menus, and starts the program reading
+	by activating the 'Command Timer' (runs with CommandTimerCallback).
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-description of data file by version:
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+version 1.0:
+	data.data_version=1.0;
+	data.measurement_time=datestr(now);
+	data.Ileak_Vgate=[V1;I1];
+	data.Idrain_Vsource=[V2;I2];
+	data.Rsample_Vgate=[V1;R];
+	data.comments{1}=1;
+	data.comments{2}=get(handles.editcommenttext,'string');
+
+
+version 1.1: (two different measurements)
+	mesdata.data_version=1.1;
+	mesdata.measurement_time=datestr(now);
+	mesdata.measurement_type='two_keithleys';
+	mesdata.data.Vgate=V1;
+	mesdata.data.Ileak=I1;
+	mesdata.data.Vsource=V2;
+	mesdata.data.Idrain=I2;   
+	mesdata.data.Rsample=R;
+	mesdata.comments{1}=1;
+	mesdata.comments{2}=get(handles.editcommenttext,'string');
+
+	mesdata.data_version=1.1;
+	mesdata.measurement_time=datestr(now);
+	mesdata.measurement_type='two_keithleys+lockin(dIdV)';
+	mesdata.data.Vgate=V1;
+	mesdata.data.Ileak=I1;
+	mesdata.data.Vsource=V2;
+	mesdata.data.dIdV=didv;   
+	mesdata.data.Rsample=R;
+	mesdata.comments{1}=1;
+	mesdata.comments{2}=get(handles.editcommenttext,'string');
+
+version 1.2: (three different measurements)
+	mesdata.data_version=1.2;
+	mesdata.measurement_time=datestr(now);
+	mesdata.measurement_type='two_keithleys';
+	mesdata.data.Vgate=V1;
+	mesdata.data.Ileak=I1;
+	mesdata.data.Vsource=S2;
+	mesdata.data.Idrain=I2;   
+	mesdata.data.Rsample=R;
+	mesdata.comments{1}=get(handles.editcommenttext,'string');
+
+	mesdata.data_version=1.2;
+	mesdata.measurement_time=datestr(now);
+	mesdata.measurement_type='two_keithleys+lockin(dIdV)';
+	mesdata.data.Vgate=V1;
+	mesdata.data.Ileak=I1;
+	mesdata.data.Vsource=S2;
+	mesdata.data.dIdV=didv;   
+	mesdata.data.Rsample=R;
+	mesdata.comments{1}=get(handles.editcommenttext,'string');
+   
+	mesdata.data_version=1.2;
+	mesdata.measurement_time=datestr(now);
+	mesdata.measurement_type='one_keithley';
+	mesdata.data.V=V1;
+	mesdata.data.I=I1;
+	mesdata.data.Rsample=R;
+	mesdata.comments{1}=get(handles.editcommenttext,'string');
+
+version 2:
+	mesdata.data_version=2;
+	mesdata.measurement_time=datestr(now);
+	mesdata.sweeped=cell of sweeped properties;
+	mesdata.measured=cell of measured properties;
+	mesdata.comments=cell of comments;
+	mesdata.data=matrix of data (columns of sweeped then columns of measured);
+~~~~~~~~~~~~~~~~~~~~~~~~~
+version 2.1: (current one)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+	mesdata.data_version=2.1;
+	mesdata.measurement_time=datestr(now);
+	mesdata.sweeped=cell of sweeped properties;
+	mesdata.measured=cell of measured properties;
+	mesdata.metadata=cell of instruments metadata;
+	mesdata.comments=cell of comments;
+	mesdata.data=matrix of data (columns of sweeped then columns of measured);
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

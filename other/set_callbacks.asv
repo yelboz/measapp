@@ -1,0 +1,27 @@
+function set_callbacks(data_object,gui_)
+    set(data.CommandTimer,'TimerFcn', {@CommandTimerCallback,data,gui});
+    set(data.MainTimer,'TimerFcn', {@MainTimerCallback,data,gui});
+
+    set(gui.Window,'CloseRequestFcn',{@CloseReq,data,gui});
+    uimenu( gui.FileMenu, 'Label', 'Load Measurement', 'Callback', {@LoadMeasurementMenu,data,gui} );
+    uimenu( gui.FileMenu, 'Label', 'Load Batch', 'Callback', {@BatchLoad,data,gui});
+    uimenu( gui.FileMenu, 'Label', 'Run Batch','Enable','off','Callback', {@RunBatch,data,gui} );
+    set(gui.ShowInstrumentsButton,'Callback', {@InstrumentSelectMenu,data,gui});
+    set(gui.RefreshButton,'Callback', {@Refresh,data,gui});
+    set(gui.EditMeasure,'Callback', {@MeasureList,data,gui});
+    set(gui.EditTimeStep,'Callback', {@TimeStepEdit,data,gui});
+    set(gui.EditDoubleTimeStep,'Callback', {@DoubleTimeStepEdit,data,gui});
+    set(gui.ListDoubleSweepMode,'Callback', {@DoubleSweepMode,data,gui});
+    set(gui.ChooseFolder,'Callback', {@ChooseFolder,data,gui});
+    set(gui.EditComponent,'Callback', {@Component,data,gui});
+    set(gui.AddComment,'Callback', {@AddComment,data,gui});
+    set(gui.ListCommand,'Callback', {@CommandListSelection,data,gui});
+    set(gui.CheckContinue,'CallBack', {@CheckContinueCallback,data,gui});
+    set(gui.GoButton,'Callback', {@GoButtonCallback,data,gui});
+    set(gui.StopButton,'Callback', {@StopNow,data,gui});
+    set(gui.AddLivePlotButton,'Callback', {@AddLivePlot,data,gui});
+    set(gui.ListChooseX1,'Callback', {@XAxisChange,data,gui});
+    set(gui.ListChooseY1,'Callback', {@YAxisChange,data,gui});
+    uimenu(gui.graphmenu,'Label','open in figure','Callback',{@OpenFigure,data,gui});
+    uimenu(gui.graphmenu,'Label','open derivative in figure','Callback',{@OpenDeriv,data,gui});
+end

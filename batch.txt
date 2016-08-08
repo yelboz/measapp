@@ -1,0 +1,3 @@
+sweep keithley2.dcv 0 1 3
+set keithley2.dcv  0
+ 

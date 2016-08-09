@@ -77,7 +77,7 @@ function data = CreateData()
             obj=CreateInstrument(instruments{i});
             fopen(obj);
             data.Connected(i)=1;
-            data.(instruments{i}{1})=obj;
+            data.(instruments{i}{1})=obj; 
             fclose(obj);
         catch EXP
             warning(EXP.message)

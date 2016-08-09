@@ -66,7 +66,9 @@ function bool=IsCommandGood(line)
                     end
                 elseif regexp(instname,'duck')
                     if ~(strcmp(prop,'DAC0_set')||strcmp(prop,'DAC1_set')...
-                            ||strcmp(prop,'DAC2_set')||strcmp(prop,'DAC3_set'))
+                                    ||strcmp(prop,'DAC2_set')||strcmp(prop,'DAC3_set')...
+                                    ||strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')||strcmp(prop,'AC3')...
+                                    ||strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3'))
                         bool=false;
                         return;
                     end
@@ -113,7 +115,9 @@ function bool=IsCommandGood(line)
                     end
                 elseif regexp(instname,'duck')
                     if ~(strcmp(prop,'DAC0_set')||strcmp(prop,'DAC1_set')...
-                            ||strcmp(prop,'DAC2_set')||strcmp(prop,'DAC3_set'))
+                                    ||strcmp(prop,'DAC2_set')||strcmp(prop,'DAC3_set')...
+                                    ||strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')||strcmp(prop,'AC3')...
+                                    ||strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3'))
                         bool=false;
                         return;
                     end
@@ -157,7 +161,9 @@ function bool=IsCommandGood(line)
                             end
                         elseif regexp(instname2,'duck')
                             if ~(strcmp(prop,'DAC0_set')||strcmp(prop,'DAC1_set')...
-                                    ||strcmp(prop,'DAC2_set')||strcmp(prop,'DAC3_set'))
+                                    ||strcmp(prop,'DAC2_set')||strcmp(prop,'DAC3_set')...
+                                    ||strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')||strcmp(prop,'AC3')...
+                                    ||strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3'))
                                 bool=false;
                                 return;
                             end

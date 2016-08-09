@@ -134,14 +134,24 @@ function SetWords(data_object,obj,splitcom)
         end
     elseif regexp(instname,'duck')
         if regexp(property,'DAC')
-            disp('Property is ');
-            disp(property)
             port=property(4);
             out = fgets(obj); %Yotam's code is bad and he should feel bad...
-            data = sprintf('SET,%s,%s',port, num2str(splitcom{3}))
-            fprintf(obj,'%s\r', data)
+            data = sprintf('SET,%s,%s',port, num2str(splitcom{3}));
+            fprintf(obj,'%s\r', data);
+            output = fgets(obj);
+        elseif regexp(property,'AC')
+            port = property(3)
+            out = fgets(obj); %Yotam's code is bad and he should feel bad...
+            data = sprintf('SINE_READ,%s,%s,%s,%s,%s,%s',port, num2str(splitcom{3}),...
+            num2str(splitcom{4}),num2str(splitcom{5}),num2str(splitcom{6}),num2str(splitcom{7}))
+            fprintf(obj,'%s\r', data);
             output = fgets(obj)
-        end
+        %elseif regexp(property,'DC')
+        %    port = property(3) %Currently does nothing
+        %    out = fgets(obj); %Yotam's code is bad and he should feel bad...
+        %    data = sprintf('DC %s', num2str(splitcom{3}))
+        %    fprintf(obj,'%s\r', data);
+        %end
     end
     pause(pi);
 end

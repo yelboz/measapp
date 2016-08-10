@@ -1,4 +1,4 @@
-function SetWords(data_object,obj,splitcom)
+function SetWords(data_object,gui_object,obj,splitcom)
     % setting an instrument parameter
     
     % get structs from objects
@@ -128,11 +128,14 @@ function SetWords(data_object,obj,splitcom)
                 errordlg('not a legal command');
         end
     elseif regexp(instname,'caen')
+        %%caen
         if regexp(property,'dcv')
             chan=property(4);
-            query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(splitcom{3})]);                                
+            query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(splitcom{3})]);
+            OpenCaenStop(data_object,gui_object,obj,chan)
         end
     elseif regexp(instname,'duck')
+        %%duck
         if regexp(property,'DAC')
             port=property(4);
             out = fgets(obj); %Yotam's code is bad and he should feel bad...

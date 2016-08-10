@@ -103,7 +103,7 @@ function meas=MeasureThis(data,gui,Property)
         if regexp(size,'PK')
             data = sprintf('PK ')
             fprintf(obj,'%s\r', data)
-            meas = str2num(fgets(obj))
+            meas = str2num(fgets(obj))/(sqrt(2))
            
         end
     

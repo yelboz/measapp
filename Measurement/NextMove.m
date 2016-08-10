@@ -157,7 +157,7 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             fprintf(obj,'%s\r', data);
             output = fgets(obj);
         elseif regexp(property, 'AC')
-            data = sprintf('AC %s', num2str(NM));
+            data = sprintf('AC %s', num2str(NM / (2*sqrt(2))));
             fprintf(obj,'%s\r', data);
         elseif regexp(property, 'DC')
             data = sprintf('DC %s', num2str(NM));

@@ -11,7 +11,12 @@ function EndRun(data_object,gui_object)
         for i=all(data.Connected==1)
             obj=GetInst(data,gui,data.Instruments{i}{1});
             status=get(obj,'status');
-            if strcmp(status,'open') && ~strcmp(data.Instruments{i}{1},'duck')
+            disp(data.SweepedNames)
+            if strcmp(data.Instruments{i}{1},'duck')
+                if regexp(data.MeasuredNames{1}, 'ADC')
+                    fclose(obj);
+                end
+            elseif strcmp(status,'open')
                 fclose(obj);
             end
         end

@@ -72,7 +72,6 @@ function data = CreateData()
     %% creating all instrument objects - checks if the instrument is connected to the computer, only connected instruments are added
     for i=1:length(instruments)
         %obj=CreateInstrument(instruments{i});
-        
         try
             obj=CreateInstrument(instruments{i});
             fopen(obj);

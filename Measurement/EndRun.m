@@ -11,7 +11,7 @@ function EndRun(data_object,gui_object)
         for i=all(data.Connected==1)
             obj=GetInst(data,gui,data.Instruments{i}{1});
             status=get(obj,'status');
-            if strcmp(status,'open')
+            if strcmp(status,'open') && ~strcmp(data.Instruments{i}{1},'duck')
                 fclose(obj);
             end
         end

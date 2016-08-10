@@ -60,8 +60,7 @@ function [SweepedStuff,m]=StartRun(data_object,gui_object,splitcom)
                 fopen(obj);
                 break
             elseif (strcmp(name, 'duck'))
-                fopen(obj);
-                out = fgets(obj);
+               
                 break
             end
 

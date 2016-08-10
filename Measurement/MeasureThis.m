@@ -100,6 +100,12 @@ function meas=MeasureThis(data,gui,Property)
             meas = str2num(fgets(obj))
            
         end
+        if regexp(size,'PK')
+            data = sprintf('PK ')
+            fprintf(obj,'%s\r', data)
+            meas = str2num(fgets(obj))
+           
+        end
     
     end
 end

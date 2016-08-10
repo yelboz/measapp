@@ -79,6 +79,7 @@ function data = CreateData()
             data.Connected(i)=1;
             data.(instruments{i}{1})=obj; 
             fclose(obj);
+            
         catch EXP
             warning(EXP.message)
             data.Connected(i)=0;

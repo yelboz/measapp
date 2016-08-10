@@ -150,7 +150,7 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             chan=property(4);
             query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(NM)]);                                
         end
-        elseif regexp(instname,'duck')
+    elseif regexp(instname,'duck')
         if regexp(property,'DAC') 
             port=property(4);
             data = sprintf('SET,%s,%s',port, num2str(NM));

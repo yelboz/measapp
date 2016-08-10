@@ -140,6 +140,7 @@ function SetWords(data_object,obj,splitcom)
             fprintf(obj,'%s\r', data);
             output = fgets(obj);
         elseif regexp(property,'AC')
+            disp(splitcom)
             port = property(3)
             out = fgets(obj); %Yotam's code is bad and he should feel bad...
             data = sprintf('SINE_READ,%s,%s,%s,%s,%s,%s',port, num2str(splitcom{3}),...

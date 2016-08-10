@@ -266,6 +266,9 @@ function SetInstrument(~,~,data_object,gui_object,type)
             fclose(InstObj);
             break
         end
+        if strcmp(name,'duck')
+            break
+        end
         QueryMeta(data,gui,name);
         instrumentsmetadata{i}=[data.Instruments{i}{1},InstObj.userdata{1}];
         try

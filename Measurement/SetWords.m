@@ -144,7 +144,7 @@ function SetWords(data_object,obj,splitcom)
             port = property(3)
             out = fgets(obj); %Yotam's code is bad and he should feel bad...
             data = sprintf('SINE_READ,%s,%s,%s,%s,%s,%s',port, num2str(splitcom{3}),...
-            num2str(splitcom{4}),num2str(str2num(splitcom{5})/(2*sqrt(2))),num2str(splitcom{6}),num2str(splitcom{7}))
+            num2str(splitcom{4}),num2str(sqrt(2)*str2num(splitcom{5})),num2str(splitcom{6}),num2str(splitcom{7}))
             fprintf(obj,'%s\r', data);
             output = fgets(obj)
             

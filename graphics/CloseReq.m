@@ -2,6 +2,7 @@ function CloseReq( src,~,data_object,gui_object)
     % closes application
     
     % get structs from objects
+    
     data=guidata(data_object);
     gui=guidata(gui_object);
     
@@ -18,6 +19,18 @@ function CloseReq( src,~,data_object,gui_object)
             stop([data.CommandTimer,data.MainTimer]);
             delete([data.CommandTimer,data.MainTimer]);
             EndRun(data_object,gui_object);
+            
+            % Close duck (EndRun won't be able to do it)
+            all=1:length(data.Instruments);
+            if any(data.Connected)
+                for i=all(data.Connected==1)
+                    obj=GetInst(data,gui,data.Instruments{i}{1});
+                    if strcmp(data.Instruments{i}{1},'duck')
+                        fclose(obj);
+                    end
+                end
+            end
+            
             delete(src);
         case 'no'
     end

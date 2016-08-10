@@ -11,9 +11,14 @@ function EndRun(data_object,gui_object)
         for i=all(data.Connected==1)
             obj=GetInst(data,gui,data.Instruments{i}{1});
             status=get(obj,'status');
-            disp(data.SweepedNames)
             if strcmp(data.Instruments{i}{1},'duck')
-                if regexp(data.MeasuredNames{1}, 'ADC')
+                if isprop(data_object,'caller')
+                    if strcmp(data_object.caller,'close_dialog')
+                        disp('Closing Object')
+                        fclose(obj);
+                    end
+                
+                elseif regexp(data.MeasuredNames{1}, 'ADC')
                     fclose(obj);
                 end
             elseif strcmp(status,'open')

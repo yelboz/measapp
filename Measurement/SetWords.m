@@ -141,17 +141,21 @@ function SetWords(data_object,obj,splitcom)
             output = fgets(obj);
         elseif regexp(property,'AC\d') %AC0 ... AC3
             port = property(3)
+            fclose(obj);
+            fopen(obj);
             out = fgets(obj); %Yotam's code is bad and he should feel bad...
             data = sprintf('SINE_READ,%s,%s,%s,%s,%s,%s',port, num2str(splitcom{3}),...
             num2str(splitcom{4}),num2str(sqrt(2)*str2num(splitcom{5})),num2str(splitcom{6}),num2str(splitcom{7}))
-            fprintf(obj,'%s\r', data);
+            fprintf(obj,'%s\r', data);  
             output = fgets(obj)
         elseif strcmp(property,'AC')
-            disp('Here')
-            data = sprintf('AC %s', num2str(str2double(splitcom{3}) / sqrt(2)))
+            data = sprintf('AC %s', num2str(str2double(splitcom{3}) * sqrt(2)))
             fprintf(obj,'%s\r', data);
         elseif strcmp(property,'DC')
             data = sprintf('DC %s', splitcom{3})
+            fprintf(obj,'%s\r', data);
+        elseif strcmp(property,'RF')
+            data = sprintf('RF %s', num2str(str2double(splitcom{3}) * sqrt(2)))
             fprintf(obj,'%s\r', data);
     end
     pause(pi);

@@ -61,8 +61,8 @@ function Sweep(data_object,gui_object,SweepedStuff)
                 break
             end
             pause(data.TimeStep);
-            
             mesdata.data(i+sp,:)=[S(i),Measure(data,gui)];
+           
             UpdateGraph(data,gui,mesdata.data);
             save(data.filename,'mesdata');
         else

@@ -162,6 +162,9 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
         elseif regexp(property, 'DC')
             data = sprintf('DC %s', num2str(NM));
             fprintf(obj,'%s\r', data);
+        elseif regexp(property, 'RF')
+            data = sprintf('RF %s', num2str(NM));
+            fprintf(obj,'%s\r', data);
         end
         
     end

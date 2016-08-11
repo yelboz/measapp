@@ -133,27 +133,26 @@ function SetWords(data_object,obj,splitcom)
             query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(splitcom{3})]);                                
         end
     elseif regexp(instname,'duck')
-        if regexp(property,'DAC')
+        if regexp(property,'DAC\d')
             port=property(4);
             out = fgets(obj); %Yotam's code is bad and he should feel bad...
             data = sprintf('SET,%s,%s',port, num2str(splitcom{3}));
             fprintf(obj,'%s\r', data);
             output = fgets(obj);
-        elseif regexp(property,'AC')
-            disp(splitcom)
+        elseif regexp(property,'AC\d') %AC0 ... AC3
             port = property(3)
             out = fgets(obj); %Yotam's code is bad and he should feel bad...
             data = sprintf('SINE_READ,%s,%s,%s,%s,%s,%s',port, num2str(splitcom{3}),...
             num2str(splitcom{4}),num2str(sqrt(2)*str2num(splitcom{5})),num2str(splitcom{6}),num2str(splitcom{7}))
             fprintf(obj,'%s\r', data);
             output = fgets(obj)
-            
-        %elseif regexp(property,'DC')
-        %    port = property(3) %Currently does nothing
-        %    out = fgets(obj); %Yotam's code is bad and he should feel bad...
-        %    data = sprintf('DC %s', num2str(splitcom{3}))
-        %    fprintf(obj,'%s\r', data);
-        %end
+        elseif strcmp(property,'AC')
+            disp('Here')
+            data = sprintf('AC %s', num2str(str2double(splitcom{3}) / sqrt(2)))
+            fprintf(obj,'%s\r', data);
+        elseif strcmp(property,'DC')
+            data = sprintf('DC %s', splitcom{3})
+            fprintf(obj,'%s\r', data);
     end
     pause(pi);
 end

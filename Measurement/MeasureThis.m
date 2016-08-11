@@ -100,12 +100,28 @@ function meas=MeasureThis(data,gui,Property)
             meas = str2num(fgets(obj))
            
         end
-        if regexp(size,'PK')
-            data = sprintf('PK ')
-            fprintf(obj,'%s\r', data)
-            meas = str2num(fgets(obj))/(sqrt(2))
-           
+        %Duck online commands
+        available_commands = {'PK','min','max','mean','read'};
+        serial_command = {'PK','MN','MX','MD','RD'};
+        for i = 1:length(available_commands)
+            command = available_commands{i};
+            if strcmp(command, size)
+                    data = sprintf('%s ', serial_command{i});
+                    fprintf(obj,'%s\r', data);
+                    meas = str2double(fgets(obj));
+                    if strcmp('PK', size)
+                        meas = meas / sqrt(2); 
+                    end
+                    break;
+            end
         end
-    
+
+%         if regexp(size,'PK')
+%             data = sprintf('PK ')
+%             fprintf(obj,'%s\r', data)
+%             meas = str2num(fgets(obj))/(sqrt(2))
+%            
+%         end
+       
     end
 end

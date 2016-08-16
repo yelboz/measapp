@@ -1,2 +1,4 @@
 #ignore matlab autosave files
 *.asv
+*lastmeasured.mat
+*lastmeta.mat

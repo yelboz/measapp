@@ -133,13 +133,7 @@ function SetWords(data_object,obj,splitcom)
             query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(splitcom{3})]);                                
         end
     elseif regexp(instname,'duck')
-        if regexp(property,'DAC\d')
-            port=property(4);
-            out = fgets(obj); %Yotam's code is bad and he should feel bad...
-            data = sprintf('SET,%s,%s',port, num2str(splitcom{3}));
-            fprintf(obj,'%s\r', data);
-            output = fgets(obj);
-        elseif regexp(property,'AC\d') %AC0 ... AC3
+        if regexp(property,'AC\d') %AC0 ... AC3
             port = property(3)
             
             %Restart arduino and get the '\n' online signal
@@ -148,8 +142,8 @@ function SetWords(data_object,obj,splitcom)
             out = fgets(obj); 
             
             
-            data = sprintf('SINE_READ,%s,%s,0,0,%s,%s',port, num2str(splitcom{3}),...
-            num2str(splitcom{4}),num2str(splitcom{5}))
+            data = sprintf('SINE,%s,0,0,%s,%s',port,...
+            num2str(splitcom{3}),num2str(splitcom{4}))
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
         elseif strcmp(property,'AC')

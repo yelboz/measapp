@@ -135,28 +135,31 @@ function SetWords(data_object,gui_object,obj,splitcom)
             OpenCaenStop(data_object,gui_object,obj,chan)
         end
     elseif regexp(instname,'duck')
-        %%duck
-        if regexp(property,'DAC')
-            port=property(4);
             out = fgets(obj); %Yotam's code is bad and he should feel bad...
-            data = sprintf('SET,%s,%s',port, num2str(splitcom{3}));
-            fprintf(obj,'%s\r', data);
-            output = fgets(obj);
-        elseif regexp(property,'AC')
-            disp(splitcom)
+        %duck
+        if regexp(property,'AC\d') %AC0 ... AC3
             port = property(3)
-            out = fgets(obj); %Yotam's code is bad and he should feel bad...
-            data = sprintf('SINE_READ,%s,%s,%s,%s,%s,%s',port, num2str(splitcom{3}),...
-            num2str(splitcom{4}),num2str(str2num(splitcom{5})/(2*sqrt(2))),num2str(splitcom{6}),num2str(splitcom{7}))
-            fprintf(obj,'%s\r', data);
-            output = fgets(obj)
             
-        %elseif regexp(property,'DC')
-        %    port = property(3) %Currently does nothing
-        %    out = fgets(obj); %Yotam's code is bad and he should feel bad...
-        %    data = sprintf('DC %s', num2str(splitcom{3}))
-        %    fprintf(obj,'%s\r', data);
-        %end
+            %Restart arduino and get the '\n' online signal
+            fclose(obj);
+            fopen(obj);
+            out = fgets(obj); 
+            
+            
+            data = sprintf('SINE,%s,0,0,%s,%s',port,...
+            num2str(splitcom{3}),num2str(splitcom{4}))
+            fprintf(obj,'%s\r', data);  
+            output = fgets(obj)
+        elseif strcmp(property,'AC')
+            data = sprintf('AC %s', num2str(str2double(splitcom{3}) * sqrt(2)))
+            fprintf(obj,'%s\r', data);
+        elseif strcmp(property,'DC')
+            data = sprintf('DC %s', splitcom{3})
+            fprintf(obj,'%s\r', data);
+        elseif strcmp(property,'RF')
+            disp('RF')
+            data = sprintf('RF %s', num2str(str2double(splitcom{3}) * sqrt(2)))
+            fprintf(obj,'%s\r', data);
     end
     pause(pi);
 end

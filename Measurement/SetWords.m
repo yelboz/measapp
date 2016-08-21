@@ -135,7 +135,6 @@ function SetWords(data_object,gui_object,obj,splitcom)
             OpenCaenStop(data_object,gui_object,obj,chan)
         end
     elseif regexp(instname,'duck')
-            out = fgets(obj); %Yotam's code is bad and he should feel bad...
         %duck
         if regexp(property,'AC\d') %AC0 ... AC3
             port = property(3)

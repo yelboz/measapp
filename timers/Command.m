@@ -44,7 +44,7 @@ function Command(data_object,gui_object,str)
             if strcmp(status,'closed')
                 fopen(obj);
             end
-            SetWords(data_object,obj,splitcom);
+            SetWords(data_object,gui_object,obj,splitcom);
         
         % for instrument sweep measurement
         case 'sweep'

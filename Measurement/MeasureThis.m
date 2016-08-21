@@ -92,7 +92,7 @@ function meas=MeasureThis(data,gui,Property)
             meas=str2double(out(length(out)));
         end
     elseif regexp(instname,'duck')
-        %% caen
+        %% duck
         if regexp(size,'ADC')
             port=size(4);
             data = sprintf('GET_ADC,%s',port)

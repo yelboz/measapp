@@ -117,6 +117,21 @@ function Command(data_object,gui_object,str)
             guidata(data_object,data);
             start(data.MainTimer);
             
+        % (for batch files) waits for (parameter) seconds before continuing
+        % with batch file
+        case 'wait'
+            %% wait
+            if data.batchflag
+                data.WaitTimer=timer;
+                data.WaitTimer.TasksToExecute=splitcom{2};
+                data.WaitTimer.ExecutionMode='fixedRate';
+                data.WaitTimer.StartFcn='data.batchflag=0';
+                data.WaitTimer.StopFcn='data.batchflag=1';
+                start(data.WaitTimer)
+            else
+                warndlg('Not operating a batch file!','Error!');
+            end
+            
         % sweeps instrument without measuring
         case 'move'
             %% move

@@ -136,15 +136,19 @@ function SetWords(data_object,gui_object,obj,splitcom)
         end
     elseif regexp(instname,'duck')
         %duck
-        if regexp(property,'AC\d') %AC0 ... AC3
+        if regexp(property,'DC\d') %DC0 ... DC3
+            port = property(3);
+            data = sprintf('SET,%s,%s',port,num2str(splitcom{3}));
+            fprintf(obj,'%s\r', data);  
+            output = fgets(obj)
+            
+        elseif regexp(property,'AC\d') %AC0 ... AC3
             port = property(3)
             
             %Restart arduino and get the '\n' online signal
             fclose(obj);
             fopen(obj);
-            out = fgets(obj); 
-            
-            
+            out = fgets(obj);           
             data = sprintf('SINE,%s,0,0,%s,%s',port,...
             num2str(splitcom{3}),num2str(splitcom{4}))
             fprintf(obj,'%s\r', data);  

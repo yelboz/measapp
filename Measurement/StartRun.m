@@ -60,8 +60,12 @@ function [SweepedStuff,m]=StartRun(data_object,gui_object,splitcom)
                 fopen(obj);
                 break
             elseif (strcmp(name, 'duck'))
-               
-                break
+%                 try 
+%                     fopen(obj)
+%                 catch
+%                     disp('Already open')
+%                 end
+               break
             end
 
             % gather live metadata and store it

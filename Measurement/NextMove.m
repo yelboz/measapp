@@ -151,7 +151,12 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(NM)]);                                
         end
     elseif regexp(instname,'duck')
-        if regexp(property, 'AC')
+        if regexp(property, 'DC\d')
+            port = property(3);
+            data = sprintf('SET,%s,%s',port,num2str(NM));
+            fprintf(obj,'%s\r', data);  
+            output = fgets(obj)
+        elseif regexp(property, 'AC')
             data = sprintf('AC %s', num2str(sqrt(2)*NM));
             fprintf(obj,'%s\r', data);
         elseif regexp(property, 'DC')

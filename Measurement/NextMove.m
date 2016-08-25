@@ -163,26 +163,21 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             data = sprintf('SET,%s,%s',port,num2str(NM));
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
-        elseif regexp(property, 'AC')
+        elseif regexp(property, 'AC\dAC')
             if is_duck_running_AC
-                data = sprintf('AC %s', num2str(sqrt(2)*NM));
+                port = propert(3);
+                data = sprintf('AC %s:%s', num2str(sqrt(2)*NM), port);
                 fprintf(obj,'%s\r', data);
             else
                 throw(MException('','Cannot change AC voltage without a running AC+DC port'))
             end
-        elseif regexp(property, 'DC')
+        elseif regexp(property, 'AC\dDC')
             if is_duck_running_AC
-                data = sprintf('DC %s', num2str(NM));
+                port = property(3);
+                data = sprintf('DC %s:%s', num2str(NM), port);
                 fprintf(obj,'%s\r', data);
             else
                 throw(MException('','Cannot change DC voltage without a running AC+DC port'))
-            end
-        elseif regexp(property, 'RF')
-            if is_duck_running_AC
-                data = sprintf('RF %s', num2str(NM));
-                fprintf(obj,'%s\r', data);
-            else 
-                throw(MException('','Cannot change RF voltage without a running AC+DC port'))
             end
         end      
                    

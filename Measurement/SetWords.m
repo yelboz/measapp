@@ -150,39 +150,31 @@ function SetWords(data_object,gui_object,obj,splitcom)
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
             
-        elseif regexp(property,'AC\d') %AC0 ... AC3
+        elseif strcmp(property,'AC') %AC0 ... AC3
             is_duck_running_AC = true;
-            port = property(3)
             %Restart arduino and get the '\n' online signal
             fclose(obj);
             fopen(obj);
             out = fgets(obj);           
-            data = sprintf('SINE,%s,0,0,%s,%s',port,...
+            data = sprintf('SINE,%s,%s',...
             num2str(splitcom{3}),num2str(splitcom{4}))
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
-        elseif strcmp(property,'AC')
+        elseif regexp(property,'AC\dAC')
             if is_duck_running_AC
-                data = sprintf('AC %s', num2str(str2double(splitcom{3}) * sqrt(2)))
+                data = sprintf('AC %s:%s', num2str(str2double(splitcom{3}) * sqrt(2)),property(3))
                 fprintf(obj,'%s\r', data);
             else
                 throw(MException('','Cannot change AC voltage without a running AC+DC port'))
             end
             
-        elseif strcmp(property,'DC')
+        elseif regexp(property,'AC\dDC')
             if is_duck_running_AC
-                data = sprintf('DC %s', splitcom{3})
+                data = sprintf('DC %s:%s', splitcom{3}, property(3))
                 fprintf(obj,'%s\r', data);
             else
                 throw(MException('','Cannot change DC voltage without a running AC+DC port'))
             end
-        elseif strcmp(property,'RF')
-            if is_duck_running_AC
-                data = sprintf('RF %s', num2str(str2double(splitcom{3}) * sqrt(2)))
-                fprintf(obj,'%s\r', data);
-            else
-                throw(MException('','Cannot change RF voltage without a running AC+DC port'))
-            end
-    end
+        end
     pause(pi);
 end

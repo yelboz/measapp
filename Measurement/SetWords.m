@@ -136,15 +136,24 @@ function SetWords(data_object,gui_object,obj,splitcom)
         end
     elseif regexp(instname,'duck')
         %duck
-        if regexp(property,'DC\d') %DC0 ... DC3
+        global bool is_duck_running_AC;
+        
+        if regexp(property,'DC\d') %DC0 ... DC3                
+            if is_duck_running_AC
+                fclose(obj)
+                fopen(obj)
+                fgets(obj);
+                is_duck_running_AC = false;
+            end
+            
             port = property(3);
             data = sprintf('SET,%s,%s',port,num2str(splitcom{3}));
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
             
         elseif regexp(property,'AC\d') %AC0 ... AC3
+            is_duck_running_AC = true;
             port = property(3)
-            
             %Restart arduino and get the '\n' online signal
             fclose(obj);
             fopen(obj);
@@ -154,15 +163,27 @@ function SetWords(data_object,gui_object,obj,splitcom)
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
         elseif strcmp(property,'AC')
-            data = sprintf('AC %s', num2str(str2double(splitcom{3}) * sqrt(2)))
-            fprintf(obj,'%s\r', data);
+            if is_duck_running_AC
+                data = sprintf('AC %s', num2str(str2double(splitcom{3}) * sqrt(2)))
+                fprintf(obj,'%s\r', data);
+            else
+                throw(MException('','Cannot change AC voltage without a running AC+DC port'))
+            end
+            
         elseif strcmp(property,'DC')
-            data = sprintf('DC %s', splitcom{3})
-            fprintf(obj,'%s\r', data);
+            if is_duck_running_AC
+                data = sprintf('DC %s', splitcom{3})
+                fprintf(obj,'%s\r', data);
+            else
+                throw(MException('','Cannot change DC voltage without a running AC+DC port'))
+            end
         elseif strcmp(property,'RF')
-            disp('RF')
-            data = sprintf('RF %s', num2str(str2double(splitcom{3}) * sqrt(2)))
-            fprintf(obj,'%s\r', data);
+            if is_duck_running_AC
+                data = sprintf('RF %s', num2str(str2double(splitcom{3}) * sqrt(2)))
+                fprintf(obj,'%s\r', data);
+            else
+                throw(MException('','Cannot change RF voltage without a running AC+DC port'))
+            end
     end
     pause(pi);
 end

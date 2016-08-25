@@ -159,7 +159,8 @@ function bool=IsCommandGood(line)
                             end
                         elseif regexp(instname2,'duck')
                             if ~(strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')||strcmp(prop,'AC3')...
-                                    ||strcmp(prop,'RF') || strcmp(prop, 'AC') || strcmp(prop, 'DC'))
+                                    ||strcmp(prop,'RF') || strcmp(prop, 'AC') || strcmp(prop, 'DC')...
+                                    || strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3'))
                                 bool=false;
                                 return;
                             end

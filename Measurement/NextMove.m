@@ -151,22 +151,41 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(NM)]);                                
         end
     elseif regexp(instname,'duck')
+        global bool is_duck_running_AC;
         if regexp(property, 'DC\d')
+            if is_duck_running_AC
+                fclose(obj);
+                fopen(obj);
+                fgets(obj);
+                is_duck_running_AC = false;
+            end
             port = property(3);
             data = sprintf('SET,%s,%s',port,num2str(NM));
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
         elseif regexp(property, 'AC')
-            data = sprintf('AC %s', num2str(sqrt(2)*NM));
-            fprintf(obj,'%s\r', data);
+            if is_duck_running_AC
+                data = sprintf('AC %s', num2str(sqrt(2)*NM));
+                fprintf(obj,'%s\r', data);
+            else
+                throw(MException('','Cannot change AC voltage without a running AC+DC port'))
+            end
         elseif regexp(property, 'DC')
-            data = sprintf('DC %s', num2str(NM));
-            fprintf(obj,'%s\r', data);
+            if is_duck_running_AC
+                data = sprintf('DC %s', num2str(NM));
+                fprintf(obj,'%s\r', data);
+            else
+                throw(MException('','Cannot change DC voltage without a running AC+DC port'))
+            end
         elseif regexp(property, 'RF')
-            data = sprintf('RF %s', num2str(NM));
-            fprintf(obj,'%s\r', data);
-        end
-        
+            if is_duck_running_AC
+                data = sprintf('RF %s', num2str(NM));
+                fprintf(obj,'%s\r', data);
+            else 
+                throw(MException('','Cannot change RF voltage without a running AC+DC port'))
+            end
+        end      
+                   
     end
     
 end

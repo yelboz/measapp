@@ -98,7 +98,6 @@ function meas=MeasureThis(data,gui,Property)
             data = sprintf('GET_ADC,%s',port)
             fprintf(obj,'%s\r', data)
             meas = str2num(fgets(obj))
-           
         end
         %Duck online commands
         available_commands = {'PK','min','max','mean','read'};
@@ -115,6 +114,7 @@ function meas=MeasureThis(data,gui,Property)
                     break;
             end
         end
+        
 
 %         if regexp(size,'PK')
 %             data = sprintf('PK ')

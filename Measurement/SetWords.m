@@ -137,17 +137,16 @@ function SetWords(data_object,gui_object,obj,splitcom)
     elseif regexp(instname,'duck')
         %duck
         global bool is_duck_running_AC;
-        
         if regexp(property,'DC\d') %DC0 ... DC3                
             if is_duck_running_AC
-                fclose(obj)
-                fopen(obj)
+                fclose(obj);
+                fopen(obj);
                 fgets(obj);
                 is_duck_running_AC = false;
             end
             
             port = property(3);
-            data = sprintf('SET,%s,%s',port,num2str(splitcom{3}));
+            data = sprintf('SET,%s,%s',port,num2str(splitcom{3}))
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
             

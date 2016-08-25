@@ -77,7 +77,11 @@ function data = CreateData()
             fopen(obj);
             data.Connected(i)=1;
             data.(instruments{i}{1})=obj; 
-            fclose(obj);
+            if strcmp(instruments{i}{1},'duck')
+                fgets(obj);
+            else 
+                fclose(obj);
+            end 
             
         catch EXP
             warning(EXP.message)

@@ -66,6 +66,7 @@ function Command(data_object,gui_object,str)
             % update data object
             data=guidata(data_object);
             data.runningmeas=0;
+            guidata(data_object,data);
             
         % command for stopping record. used in batch files
         case 'stoprecord'

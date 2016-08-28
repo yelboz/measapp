@@ -134,6 +134,7 @@ function Command(data_object,gui_object,str)
     set(gui.ListCommand, 'String', current_entries);
     
     % update data object
+    data=guidata(data_object);
     guidata(data_object,data);
     
     % close instruments if allowed

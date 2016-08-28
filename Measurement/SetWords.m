@@ -104,8 +104,8 @@ function SetWords(data_object,gui_object,obj,splitcom)
                 
                 % start timer - timer will wait for magnet to reach
                 % correct field
-                t_run=get(data.MainTimer,running);
-                if ~t_run
+                t_run=get(data.MainTimer,'running');
+                if strcmp(t_run,'off')
                     start(data.MainTimer);
                 end
                 
@@ -127,15 +127,27 @@ function SetWords(data_object,gui_object,obj,splitcom)
             otherwise
                 errordlg('not a legal command');
         end
+    elseif regexp(instname,'lakes336')
+        %% lakes336
+        switch property
+            case 'setp1'
+                fprintf(obj,['SETP 1,',num2str(splitcom{3})]);
+            case 'setp2'
+                fprintf(obj,['SETP 2,',num2str(splitcom{3})]);
+            case 'range1'
+                fprintf(obj,['RANGE 1,',num2str(splitcom{3})]);
+            case 'range2'
+                fprintf(obj,['RANGE 2,',num2str(splitcom{3})]);
+        end
     elseif regexp(instname,'caen')
-        %%caen
+        %% caen
         if regexp(property,'dcv')
             chan=property(4);
             query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(splitcom{3})]);
             OpenCaenStop(data_object,gui_object,obj,chan)
         end
     elseif regexp(instname,'duck')
-        %duck
+        %% duck
         global bool is_duck_running_AC;
         if regexp(property,'DC\d') %DC0 ... DC3                
             if is_duck_running_AC

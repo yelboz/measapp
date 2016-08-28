@@ -58,6 +58,12 @@ function bool=IsCommandGood(line)
                         bool=false;
                         return;
                     end
+                elseif regexp(instname,'lakes336')
+                    if ~(strcmp(prop,'setp1')||strcmp(prop,'setp2')...
+                            ||strcmp(prop,'range1')||strcmp(prop,'range2'))
+                        bool=false;
+                        return;
+                    end
                 elseif regexp(instname,'caen')
                     if ~(strcmp(prop,'dcv0set')||strcmp(prop,'dcv1set')...
                             ||strcmp(prop,'dcv2set')||strcmp(prop,'dcv3set'))

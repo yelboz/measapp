@@ -156,8 +156,8 @@ function SetWords(data_object,gui_object,obj,splitcom)
             fclose(obj);
             fopen(obj);
             out = fgets(obj);           
-            data = sprintf('SINE,%s,%s',...
-            num2str(splitcom{3}),num2str(splitcom{4}))
+            data = sprintf('SINE,%s,%s,%s',...
+            num2str(splitcom{3}),num2str(splitcom{4}), num2str(splitcom{5}))
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
         elseif regexp(property,'AC\dAC')

@@ -109,7 +109,7 @@ function SetInstrument(~,~,data_object,gui_object,type)
         metadata={measure,...
             measurerange};
         obj.userdata{1}=metadata;
-    elseif regexp(gui.inst,'lockin')
+    elseif regexp(type,'lockin')
         %% lockin
         inp=get(gui.InputPopup, 'Value')-1;
         sens=get(gui.SensetivityPopup, 'Value')-1;
@@ -146,7 +146,7 @@ function SetInstrument(~,~,data_object,gui_object,type)
             obj.userdata{1}{9},...
             obj.userdata{1}{10}};
         obj.userdata{1}=metadata;
-    elseif regexp(gui.inst,'amplifier')
+    elseif regexp(type,'amplifier')
         %% amplifier
         sens=str2double(GetStrFromPop(gui.Amps2VoltPopup));
         if get(gui.Amps2VoltCheck,'value')
@@ -157,7 +157,7 @@ function SetInstrument(~,~,data_object,gui_object,type)
         metadata={sens,...
             connected};
         data.amplifier.userdata{1}=metadata;
-    elseif regexp(gui.inst,'magnet')
+    elseif regexp(type,'magnet')
         %% magnet
         range1=str2double(get(gui.FirstFinish, 'String'));
         range2=str2double(get(gui.SecondFinish, 'String'));
@@ -214,7 +214,7 @@ function SetInstrument(~,~,data_object,gui_object,type)
             lolimit,...
             vlimit};
         obj.userdata{1}=metadata;
-    elseif regexp(gui.inst,'caen')
+    elseif regexp(type,'caen')
         %% caen
         %initialize cells
         c=cell([4,1]);
@@ -251,6 +251,21 @@ function SetInstrument(~,~,data_object,gui_object,type)
             query(obj,['$BD:0,CMD:SET,CH:',channel,',PAR:TRIP,VAL:',trip{i}]);
             query(obj,['$BD:0,CMD:SET,CH:',channel,',PAR:PDWN,VAL:',power_down{i}]);
         end
+    elseif regexp(type,'duck')
+        %% duck
+        obj=GetInst(data,gui,gui.inst);
+        points =str2double(get(gui.DuckPoints, 'String')); 
+        freq = str2double(get(gui.DuckFreq, 'String')); 
+        ramp_rate=str2double(get(gui.DuckRamp, 'String'));
+        global bool is_duck_running_AC;
+        fclose(obj);
+        fopen(obj);
+        out = fgets(obj);           
+        duck_serial_output = sprintf('SINE,%s,%s,%s',...
+        num2str(freq), num2str(points), num2str(ramp_rate));
+        is_duck_running_AC = true;
+        fprintf(obj,'%s\r', duck_serial_output );  
+        output = fgets(obj)
         
     end
     pause(0.1);

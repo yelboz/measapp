@@ -176,5 +176,6 @@ function SetWords(data_object,gui_object,obj,splitcom)
                 throw(MException('','Cannot change DC voltage without a running AC+DC port'))
             end
         end
+    end
     pause(pi);
 end

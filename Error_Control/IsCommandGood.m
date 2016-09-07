@@ -58,6 +58,12 @@ function bool=IsCommandGood(line)
                         bool=false;
                         return;
                     end
+                elseif regexp(instname,'lakes336')
+                    if ~(strcmp(prop,'setp1')||strcmp(prop,'setp2')...
+                            ||strcmp(prop,'range1')||strcmp(prop,'range2'))
+                        bool=false;
+                        return;
+                    end
                 elseif regexp(instname,'caen')
                     if ~(strcmp(prop,'dcv0set')||strcmp(prop,'dcv1set')...
                             ||strcmp(prop,'dcv2set')||strcmp(prop,'dcv3set'))
@@ -66,7 +72,10 @@ function bool=IsCommandGood(line)
                     end
                 elseif regexp(instname,'duck')
                     if ~(strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')...
-                                    || strcmp(prop, 'AC') || strcmp(prop, 'DC') || strcmp(prop, 'RF'))
+                                    || strcmp(prop, 'AC') || strcmp(prop, 'DC') || strcmp(prop, 'RF')...
+                                    || strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3')...
+                                    || strcmp(prop,'AC0AC')|| strcmp(prop,'AC1AC')|| strcmp(prop,'AC2AC')|| strcmp(prop,'AC3AC')...
+                                    || strcmp(prop,'AC0DC')|| strcmp(prop,'AC1DC')|| strcmp(prop,'AC2DC')|| strcmp(prop,'AC3DC'))
                         bool=false;
                         return;
                     end
@@ -113,7 +122,10 @@ function bool=IsCommandGood(line)
                     end
                 elseif regexp(instname,'duck')
                     if ~(strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')...
-                                    ||strcmp(prop,'RF') || strcmp(prop, 'AC') || strcmp(prop, 'DC'))
+                                    ||strcmp(prop,'RF') || strcmp(prop, 'AC') || strcmp(prop, 'DC')...
+                                    || strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3')...
+                                    || strcmp(prop,'AC0AC')|| strcmp(prop,'AC2AC')|| strcmp(prop,'AC2AC')|| strcmp(prop,'AC3AC')...
+                                    || strcmp(prop,'AC0DC')|| strcmp(prop,'AC1DC')|| strcmp(prop,'AC2DC')|| strcmp(prop,'AC3DC'))
                         bool=false;
                         return;
                     end
@@ -157,7 +169,10 @@ function bool=IsCommandGood(line)
                             end
                         elseif regexp(instname2,'duck')
                             if ~(strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')||strcmp(prop,'AC3')...
-                                    ||strcmp(prop,'RF') || strcmp(prop, 'AC') || strcmp(prop, 'DC'))
+                                    ||strcmp(prop,'RF') || strcmp(prop, 'AC') || strcmp(prop, 'DC')...
+                                    || strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3')...
+                                    || strcmp(prop,'AC0AC')|| strcmp(prop,'AC2AC')|| strcmp(prop,'AC2AC')|| strcmp(prop,'AC3AC')...
+                                    || strcmp(prop,'AC0DC')|| strcmp(prop,'AC1DC')|| strcmp(prop,'AC2DC')|| strcmp(prop,'AC3DC'))
                                 bool=false;
                                 return;
                             end
@@ -225,6 +240,12 @@ function bool=IsCommandGood(line)
             case 'continuelast'
                 %% 
                 if length(splitcom)~=1
+                    bool=false;
+                    return;
+                end
+            case 'wait'
+                %%
+                if length(splitcom)~=2
                     bool=false;
                     return;
                 end

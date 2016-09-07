@@ -36,6 +36,11 @@ function MeasureList(src,~,data_object,gui_object)
     list=strtrim(strsplit(str,','));
     for i=1:length(list)
         ch=false;
+        s = list{i};
+        pos = strfind(s,'#');
+        if isempty(pos)==0
+            list{i} = s(1:pos-1);
+        end
         for j=1:length(possiblemeasure)
             if strcmp(list{i},possiblemeasure{j})
                 ch=true;

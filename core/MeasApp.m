@@ -20,4 +20,5 @@ function MeasApp()
 
     % starts the timer
     start(data.CommandTimer);
+     
 end

@@ -30,6 +30,11 @@ function CloseReq( src,~,data_object,gui_object)
                     end
                 end
             end
+            %Remove Duck Global Vars
+            %global bool is_duck_running_AC;
+            %global bool did_duck_fopen;
+            clearvars -global did_duck_fopen is_duck_running_AC;
+    
             
             delete(src);
         case 'no'

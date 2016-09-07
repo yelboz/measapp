@@ -104,8 +104,8 @@ function SetWords(data_object,gui_object,obj,splitcom)
                 
                 % start timer - timer will wait for magnet to reach
                 % correct field
-                t_run=get(data.MainTimer,running);
-                if ~t_run
+                t_run=get(data.MainTimer,'running');
+                if strcmp(t_run,'off')
                     start(data.MainTimer);
                 end
                 
@@ -127,38 +127,67 @@ function SetWords(data_object,gui_object,obj,splitcom)
             otherwise
                 errordlg('not a legal command');
         end
+    elseif regexp(instname,'lakes336')
+        %% lakes336
+        switch property
+            case 'setp1'
+                fprintf(obj,['SETP 1,',num2str(splitcom{3})]);
+            case 'setp2'
+                fprintf(obj,['SETP 2,',num2str(splitcom{3})]);
+            case 'range1'
+                fprintf(obj,['RANGE 1,',num2str(splitcom{3})]);
+            case 'range2'
+                fprintf(obj,['RANGE 2,',num2str(splitcom{3})]);
+        end
     elseif regexp(instname,'caen')
-        %%caen
+        %% caen
         if regexp(property,'dcv')
             chan=property(4);
             query(obj,['$BD:0,CMD:SET,CH:',chan,',PAR:VSET,VAL:',num2str(splitcom{3})]);
             OpenCaenStop(data_object,gui_object,obj,chan)
         end
     elseif regexp(instname,'duck')
-        %duck
-        if regexp(property,'AC\d') %AC0 ... AC3
-            port = property(3)
+        %% duck
+        global bool is_duck_running_AC;
+        if regexp(property,'DC\d') %DC0 ... DC3                
+            if is_duck_running_AC
+                fclose(obj);
+                fopen(obj);
+                fgets(obj);
+                is_duck_running_AC = false;
+            end
             
+            port = property(3);
+            data = sprintf('SET,%s,%s',port,num2str(splitcom{3}))
+            fprintf(obj,'%s\r', data);  
+            output = fgets(obj)
+            
+        elseif strcmp(property,'AC') %AC0 ... AC3
+            is_duck_running_AC = true;
             %Restart arduino and get the '\n' online signal
             fclose(obj);
             fopen(obj);
-            out = fgets(obj); 
-            
-            
-            data = sprintf('SINE,%s,0,0,%s,%s',port,...
-            num2str(splitcom{3}),num2str(splitcom{4}))
+            out = fgets(obj);           
+            data = sprintf('SINE,%s,%s,%s',...
+            num2str(splitcom{3}),num2str(splitcom{4}), num2str(splitcom{5}))
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
-        elseif strcmp(property,'AC')
-            data = sprintf('AC %s', num2str(str2double(splitcom{3}) * sqrt(2)))
-            fprintf(obj,'%s\r', data);
-        elseif strcmp(property,'DC')
-            data = sprintf('DC %s', splitcom{3})
-            fprintf(obj,'%s\r', data);
-        elseif strcmp(property,'RF')
-            disp('RF')
-            data = sprintf('RF %s', num2str(str2double(splitcom{3}) * sqrt(2)))
-            fprintf(obj,'%s\r', data);
+        elseif regexp(property,'AC\dAC')
+            if is_duck_running_AC
+                data = sprintf('AC %s:%s', num2str(str2double(splitcom{3}) * sqrt(2)),property(3))
+                fprintf(obj,'%s\r', data);
+            else
+                throw(MException('','Cannot change AC voltage without a running AC+DC port'))
+            end
+            
+        elseif regexp(property,'AC\dDC')
+            if is_duck_running_AC
+                data = sprintf('DC %s:%s', splitcom{3}, property(3))
+                fprintf(obj,'%s\r', data);
+            else
+                throw(MException('','Cannot change DC voltage without a running AC+DC port'))
+            end
+        end
     end
     pause(pi);
 end

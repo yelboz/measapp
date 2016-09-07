@@ -36,4 +36,7 @@ function set_callbacks(data_object,gui_object)
     uimenu(gui.graphmenu,'Label','open derivative in figure','Callback',{@OpenDeriv,data_object,gui_object});
     
     
+    %Keyboard Shortcuts
+    
+    
 end

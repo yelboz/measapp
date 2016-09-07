@@ -169,8 +169,8 @@ Table of Contents:
 -general script idea:
  ~~~~~~~~~~~~~~~~~~~
 
-	the main file witch runs the gui is 'MeasApp.m'. it creats the data and graphic structs,
-	sets the callbacks for most of the buttons and menus, and starts the program reading
+	the main file which runs the gui is 'MeasApp.m'. it creats the data and graphic structs,
+	sets the callbacks for zmost of the buttons and menus, and starts the program reading
 	by activating the 'Command Timer' (runs with CommandTimerCallback).
 
 

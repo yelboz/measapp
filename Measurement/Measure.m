@@ -11,6 +11,20 @@ function info=Measure(data,gui)
     end
     info=zeros([1,length(data.MeasuredNames)]);
     for i=1:length(data.MeasuredNames)
-        info(i)=MeasureThis(data,gui,data.MeasuredNames{i});
+        s = data.MeasuredNames{i};
+        pos = strfind(s,'#');
+        if isempty(pos)
+            repeat = 1;
+        else
+            repeat = str2double(s(pos+1:end));
+            s = s(1:pos-1);
+        end
+        info(i)=0;
+        tic
+        for j=1:repeat
+            temp = MeasureThis(data,gui,s);
+            info(i) = info(i) + temp/repeat ;
+        end
+        toc
     end    
 end 

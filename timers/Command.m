@@ -66,6 +66,7 @@ function Command(data_object,gui_object,str)
             % update data object
             data=guidata(data_object);
             data.runningmeas=0;
+            guidata(data_object,data);
             
         % command for stopping record. used in batch files
         case 'stoprecord'
@@ -117,6 +118,23 @@ function Command(data_object,gui_object,str)
             guidata(data_object,data);
             start(data.MainTimer);
             
+        % (for batch files) waits for (parameter) seconds before continuing
+        % with batch file
+        case 'wait'
+            %% wait
+            if data.batchflag
+                data.WaitTimer=timer;
+                data.WaitTimer.TasksToExecute=str2double(splitcom{2});
+                data.WaitTimer.ExecutionMode='fixedRate';
+                data.WaitTimer.StartFcn={@WaitFcn,data_object,data}; %stops batch timer
+                data.WaitTimer.TimerFcn={@WaitFcn,data_object,data}; %does nothing
+                data.WaitTimer.StopFcn={@WaitFcn,data_object,data}; %starts batch timer
+                start(data.WaitTimer);
+                guidata(data_object,data);
+            else
+                warndlg('Not operating a batch file!','Error!');
+            end
+            
         % sweeps instrument without measuring
         case 'move'
             %% move
@@ -134,6 +152,7 @@ function Command(data_object,gui_object,str)
     set(gui.ListCommand, 'String', current_entries);
     
     % update data object
+    data=guidata(data_object);
     guidata(data_object,data);
     
     % close instruments if allowed

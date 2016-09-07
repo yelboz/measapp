@@ -1,3 +1,0 @@
- Problems using my code
-    * Serial Device Location, only COM....
-    * Serial Device 

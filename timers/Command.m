@@ -123,11 +123,13 @@ function Command(data_object,gui_object,str)
             %% wait
             if data.batchflag
                 data.WaitTimer=timer;
-                data.WaitTimer.TasksToExecute=splitcom{2};
+                data.WaitTimer.TasksToExecute=str2double(splitcom{2});
                 data.WaitTimer.ExecutionMode='fixedRate';
-                data.WaitTimer.StartFcn='data.batchflag=0';
-                data.WaitTimer.StopFcn='data.batchflag=1';
-                start(data.WaitTimer)
+                data.WaitTimer.StartFcn={@WaitFcn,data_object,data}; %stops batch timer
+                data.WaitTimer.TimerFcn={@WaitFcn,data_object,data}; %does nothing
+                data.WaitTimer.StopFcn={@WaitFcn,data_object,data}; %starts batch timer
+                start(data.WaitTimer);
+                guidata(data_object,data);
             else
                 warndlg('Not operating a batch file!','Error!');
             end

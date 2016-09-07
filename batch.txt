@@ -1,3 +1,5 @@
-sweep keithley2.dcv 0 1 3
-set keithley2.dcv  0
- 
+record
+set caen.dcv1set 10
+wait 20
+set caen.dcv1set 0
+stoprecord

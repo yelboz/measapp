@@ -243,6 +243,12 @@ function bool=IsCommandGood(line)
                     bool=false;
                     return;
                 end
+            case 'wait'
+                %%
+                if length(splitcom)~=2
+                    bool=false;
+                    return;
+                end
             otherwise
                 bool=false;
                 return;

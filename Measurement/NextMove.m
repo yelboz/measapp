@@ -34,6 +34,14 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             case 'auxdcv4'
                 fprintf(obj,['AUXV 4,',num2str(NM)]);
         end
+    elseif regexp(instname,'lakes336')
+        %% lakes336
+        switch property
+            case 'setp1'
+                fprintf(obj,['SETP 1,',num2str(NM)]);
+            case 'setp2'
+                fprintf(obj,['SETP 2,',num2str(NM)]);
+        end
     elseif regexp(instname,'magnet')
         %% magnet
         data.magnetsweepflag=1;
@@ -110,13 +118,13 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
                 guidata(data_object,data);
                 target=NM;
                 
-                j=PsHtrIfMagnetThere(data_object,gui_object,obj,target,true);
+                j=PsHtrIfMagnetThere(data_object,gui_object,obj,10*target,true);
                 while ~j
                     data=guidata(data_object);
                     if data.StopNow
                         return;
                     end
-                    j=PsHtrIfMagnetThere(data_object,gui_object,obj,target,true);
+                    j=PsHtrIfMagnetThere(data_object,gui_object,obj,10*target,true);
                     pause(2);
                 end
                 

@@ -20,11 +20,11 @@ function info=Measure(data,gui)
             s = s(1:pos-1);
         end
         info(i)=0;
-        tic
+        
         for j=1:repeat
             temp = MeasureThis(data,gui,s);
             info(i) = info(i) + temp/repeat ;
         end
-        toc
+        
     end    
 end 

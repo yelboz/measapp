@@ -34,7 +34,7 @@ function Sweep(data_object,gui_object,SweepedStuff)
     
     % moves the sweeped instrument to the next point
     NextMove(data_object,gui_object,SweepedStuff{1},S(i));
-    pause(3*data.TimeStep);
+    pause(data.TimeStep);
     
     % measure instruments and store data
     mesdata.data(i+sp,:)=[S(i),Measure(data,gui)];

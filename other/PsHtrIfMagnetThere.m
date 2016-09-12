@@ -10,7 +10,7 @@ function answ=PsHtrIfMagnetThere(data_object,gui_object,obj,targetkg,pshtr)
     
     % set additional waiting time and sensitivity
     perswait=5;
-    eps=0.008;
+    eps=0.01;
     fprintf(obj,'IOUT?');
     f=scanstr(obj);
     f=f{1};

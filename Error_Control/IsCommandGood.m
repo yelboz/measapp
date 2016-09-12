@@ -120,6 +120,11 @@ function bool=IsCommandGood(line)
                         bool=false;
                         return;
                     end
+                elseif regexp(instname,'lakes336')
+                    if ~(strcmp(prop,'setp1')||strcmp(prop,'setp2'))
+                        bool=false;
+                        return;
+                    end
                 elseif regexp(instname,'duck')
                     if ~(strcmp(prop,'AC0')||strcmp(prop,'AC1')||strcmp(prop,'AC2')...
                                     ||strcmp(prop,'RF') || strcmp(prop, 'AC') || strcmp(prop, 'DC')...
@@ -173,6 +178,11 @@ function bool=IsCommandGood(line)
                                     || strcmp(prop,'DC0')||strcmp(prop,'DC1')||strcmp(prop,'DC2')||strcmp(prop,'DC3')...
                                     || strcmp(prop,'AC0AC')|| strcmp(prop,'AC2AC')|| strcmp(prop,'AC2AC')|| strcmp(prop,'AC3AC')...
                                     || strcmp(prop,'AC0DC')|| strcmp(prop,'AC1DC')|| strcmp(prop,'AC2DC')|| strcmp(prop,'AC3DC'))
+                                bool=false;
+                                return;
+                            end
+                         elseif regexp(instname2,'lakes336')
+                            if ~(strcmp(prop2,'setp1')||strcmp(prop2,'setp2'))
                                 bool=false;
                                 return;
                             end

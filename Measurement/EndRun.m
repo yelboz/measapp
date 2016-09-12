@@ -19,7 +19,8 @@ function EndRun(data_object,gui_object)
                     end
                 
                 elseif regexp(data.MeasuredNames{1}, 'ADC')
-                    fclose(obj);
+                    %fclose(obj);
+                    ;
                 end
             elseif strcmp(status,'open')
                 fclose(obj);

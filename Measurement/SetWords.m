@@ -150,10 +150,10 @@ function SetWords(data_object,gui_object,obj,splitcom)
         %% duck
         global bool is_duck_running_AC;
         if regexp(property,'DC\d') %DC0 ... DC3                
+            
             if is_duck_running_AC
-                fclose(obj);
-                fopen(obj);
-                fgets(obj);
+                fprintf(obj,'STOPSINE\r');  
+                temp_output = fgets(obj)
                 is_duck_running_AC = false;
             end
             

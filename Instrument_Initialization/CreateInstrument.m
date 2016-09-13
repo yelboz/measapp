@@ -146,6 +146,11 @@ function obj=CreateInstrument(instrument)
             freq = 115200;
             disp(instrument{3});
             obj = serial(instrument{3}, 'BaudRate', freq);
+            % Freq
+            % Points on Graph
+            % Volt per Sec
+            metadata={17, 80, 0.5};
+            obj.userdata={metadata};
 
         end
     end

@@ -62,7 +62,8 @@ function [SweepedStuff,m]=StartRun(data_object,gui_object,splitcom)
             elseif (strcmp(name, 'duck'))
                 global bool is_duck_running_AC;
                 if is_duck_running_AC
-                    %Shouldn't fopen if AC is running
+                    QueryMeta(data,gui,name);
+                    instrumentsmetadata{i}=[data.Instruments{i}{1},obj.userdata{1}];
                 else
                     fopen(obj);
                     fgets(obj);

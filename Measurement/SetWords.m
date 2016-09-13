@@ -162,12 +162,8 @@ function SetWords(data_object,gui_object,obj,splitcom)
             fprintf(obj,'%s\r', data);  
             output = fgets(obj)
             
-        elseif strcmp(property,'AC') %AC0 ... AC3
+        elseif strcmp(property,'AC') 
             is_duck_running_AC = true;
-            %Restart arduino and get the '\n' online signal
-            fclose(obj);
-            fopen(obj);
-            out = fgets(obj);           
             data = sprintf('SINE,%s,%s,%s',...
             num2str(splitcom{3}),num2str(splitcom{4}), num2str(splitcom{5}))
             fprintf(obj,'%s\r', data);  

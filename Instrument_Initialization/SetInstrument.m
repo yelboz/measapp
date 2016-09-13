@@ -253,19 +253,23 @@ function SetInstrument(~,~,data_object,gui_object,type)
         end
     elseif regexp(type,'duck')
         %% duck
+        global bool is_duck_running_AC;
         obj=GetInst(data,gui,gui.inst);
         points =str2double(get(gui.DuckPoints, 'String')); 
         freq = str2double(get(gui.DuckFreq, 'String')); 
         ramp_rate=str2double(get(gui.DuckRamp, 'String'));
-        global bool is_duck_running_AC;
-        fclose(obj);
-        fopen(obj);
-        out = fgets(obj);           
+        
+        %Update Meta Data
+        metadata={freq, points, ramp_rate};
+        obj.userdata{1}=metadata;
+
         duck_serial_output = sprintf('SINE,%s,%s,%s',...
         num2str(freq), num2str(points), num2str(ramp_rate));
         is_duck_running_AC = true;
         fprintf(obj,'%s\r', duck_serial_output );  
         output = fgets(obj)
+        
+        
         
     end
     pause(0.1);
@@ -282,6 +286,8 @@ function SetInstrument(~,~,data_object,gui_object,type)
             break
         end
         if strcmp(name,'duck')
+            QueryMeta(data,gui,name);
+            instrumentsmetadata{i}=[data.Instruments{i}{1},InstObj.userdata{1}];
             break
         end
         QueryMeta(data,gui,name);

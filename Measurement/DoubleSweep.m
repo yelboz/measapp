@@ -38,17 +38,19 @@ function DoubleSweep(data_object,gui_object,SweepedStuff)
             if data.StopNow
                 break
             end
-            pause(data.DoubleTimeStep);
             
             % first iteration separated for a bigger time step
             j=1;
 
             % moves the sweeped instrument to the next point
             NextMove(data_object,gui_object,SweepedStuff{2},S2(j));
-            pause(3*data.TimeStep);
+            pause(data.DoubleTimeStep);
 
             % measure instruments and store data
-            mesdata.data(i+sp,:)=[S1(i),S2(j),Measure(data,gui)];
+            mesdata.data(length(S2)*(i+sp-1)+1,:)=[S1(i),S2(j),Measure(data,gui)];
+%           used to be: (wrong indexing)
+%           mesdata.data(i+sp,:)=[S1(i),S2(j),Measure(data,gui)];
+
 
             % live plot
             UpdateGraph(data,gui,mesdata.data);

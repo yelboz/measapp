@@ -19,8 +19,8 @@ function answ=PsHtrIfMagnetThere(data_object,gui_object,obj,targetkg,pshtr)
     f=str2double(f);
     
     %%%%%%%%%%%%%%%%%%%%%% for debugging
-    data.evilmatrix{data.evilcounter,data.bigevilcounter}=f;
-    data.evilcounter=data.evilcounter+1;
+%     data.evilmatrix{data.evilcounter,data.bigevilcounter}=f;
+%     data.evilcounter=data.evilcounter+1;
     %%%%%%%%%%%%%%%%%%%%%%
     guidata(data_object,data);
     

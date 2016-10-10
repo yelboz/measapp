@@ -107,7 +107,7 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
                 end
                 
                 % after turning heater on field is moved
-                fprintf(obj,['ULIM ',num2str(10*NM)]);
+                fprintf(obj,['ULIM ',num2str(NM)]); % was 10 * NM
                 pause(2);
                 fprintf(obj,'SWEEP UP');
                 
@@ -118,13 +118,13 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
                 guidata(data_object,data);
                 target=NM;
                 
-                j=PsHtrIfMagnetThere(data_object,gui_object,obj,10*target,true);
+                j=PsHtrIfMagnetThere(data_object,gui_object,obj,target,true);
                 while ~j
                     data=guidata(data_object);
                     if data.StopNow
                         return;
                     end
-                    j=PsHtrIfMagnetThere(data_object,gui_object,obj,10*target,true);
+                    j=PsHtrIfMagnetThere(data_object,gui_object,obj,target,true);
                     pause(2);
                 end
                 

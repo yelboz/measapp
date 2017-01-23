@@ -86,6 +86,7 @@ function meas=MeasureThis(data,gui,Property)
         %% bluefors
             bluefores_dir='C:\Users\user\Google Drive\Steinberg Lab\BlueFors\Log';
             d=dir(bluefores_dir);
+            d=d(3:end);
              [~,dx]=sort([d.datenum]);
             newest = d(dx(end)).name;
             log_dir=fullfile(bluefores_dir,newest);

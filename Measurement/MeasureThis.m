@@ -126,7 +126,8 @@ function meas=MeasureThis(data,gui,Property)
                 meas = str2num(fgets(obj))
             end
         end
-        
-       
+    elseif regexp(instname,'AMI')
+        out=query(obj,'FIELD:MAG?');
+        meas=str2num(out);
     end
 end

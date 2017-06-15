@@ -72,7 +72,8 @@ function [SweepedStuff,m]=StartRun(data_object,gui_object,splitcom)
                         
                     end
                 end
-               break
+                %%% is it necessary??
+%                  break
             end
 
             % gather live metadata and store it

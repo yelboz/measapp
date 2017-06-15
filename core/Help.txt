@@ -1,3 +1,5 @@
+duck : https://github.com/tomirendo/Duck
+
 HELP:
 ~~~~
 
@@ -141,6 +143,7 @@ Table of Contents:
 	lakes336.ctemp,lakes336.htemp,lakes336.btemp,
 	magnet.field,dmm.dcc,dmm.dcv
 	caen.dcv0,caen.dcv1
+	bluefors.temp2
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -150,7 +153,6 @@ Table of Contents:
 	add the instrument to the mat-file 'instruments', which contens the following fields:
 		instrument's name, interface, address, a list of measurable properties and a list of sweepable 
 		properties.
-	'MeasureList' - add suitable new legal entries.
 
 	if this is a new type of instrument (and/or interface):
 

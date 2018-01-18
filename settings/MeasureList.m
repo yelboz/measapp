@@ -28,22 +28,6 @@ function MeasureList(src,~,data_object,gui_object)
         end
     end
     
-    
-    % added for bluefors temp measurements
-    name=data.Instruments{14}{1};
-    props=data.Instruments{14}{4};
-    for j=1:length(props)
-        count=count+1;
-        if ~ischar(props)
-            prop=props{j};
-        else
-            prop=props;
-        end
-        possiblemeasure{count}=[name,'.',prop];
-    end  
-    %%%%%%%%%%%%%%%%%%%
-    
-    
     str=get(src,'string');
     
     % check if input is legal

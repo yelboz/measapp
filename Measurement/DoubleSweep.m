@@ -77,13 +77,6 @@ function DoubleSweep(data_object,gui_object,SweepedStuff)
                 end
             end
             
-            %[Use this when the outer loop is magnetic field and the innerloop is the gate voltage and you want the measurement at each magnetic field to begin at the first gate voltage value (say -20 V )]
-            % devidas - return to initial value of inner loop
-            if i<length(S1)
-                NextMove(data_object,gui_object,SweepedStuff{2},S2(1));
-            end
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
             % flips inner sweep vector
             if mode3
                 S2=fliplr(S2);
@@ -93,18 +86,6 @@ function DoubleSweep(data_object,gui_object,SweepedStuff)
             break
         end
     end
-    
-     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            % devidas - take gate voltage (inner loop) to zero at end of measurement
-    NextMove(data_object,gui_object,SweepedStuff{2},0);
-    pause(3);
-    %END HERE
-    
-       %[Use this when the outer loop is the gate voltage and you want the keithley to go back to zero after sweeping from -20 V to 20 V]
-            % devidas - take gate voltage (outer loop) to zero at end of measurement
-%     NextMove(data_object,gui_object,SweepedStuff{1},0);
-%     pause(3);
-    %END HERE
     
     % update data object
     data.mesdata=mesdata;

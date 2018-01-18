@@ -4,7 +4,6 @@ function obj=CreateInstrument(instrument)
     % gather instrument info
     InstName=instrument{1};
     InstInter=instrument{2};
-    InstAddress_raw=instrument{3};
     InstAddress=str2double(instrument{3});
     
     % create object according to interface type, userdata holds the instrument's
@@ -152,20 +151,7 @@ function obj=CreateInstrument(instrument)
             % Volt per Sec
             metadata={17, 80, 0.5};
             obj.userdata={metadata};
-        elseif  strcmp(InstInter,'ethernet')
-            ip=InstAddress_raw{1};
-            port=InstAddress_raw{2};
-            obj = instrfind('Type', 'tcpip', 'RemoteHost', ip, 'RemotePort', port, 'Tag', '');
-            if isempty(obj)
-                obj = tcpip(ip,port);
-            else
-                fclose(obj);
-                obj= obj(1);
-            end
-            fopen(obj);
-            scanstr(obj);
-            scanstr(obj);
-            fclose(obj);
+
         end
     end
 end

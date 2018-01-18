@@ -79,11 +79,6 @@ function bool=IsCommandGood(line)
                         bool=false;
                         return;
                     end
-                elseif regexp(instname,'AMI')
-                     if ~(strcmp(prop,'field')||strcmp(prop,'ramp')||strcmp(prop,'zero'))
-                        bool=false;
-                        return;
-                    end
                 else
                     bool=false;
                     return;
@@ -139,11 +134,6 @@ function bool=IsCommandGood(line)
                         bool=false;
                         return;
                     end
-                elseif regexp(instname,'AMI')
-                     if ~(strcmp(prop,'field'))
-                        bool=false;
-                        return;
-                    end
                 else
                     bool=false;
                     return;
@@ -196,11 +186,6 @@ function bool=IsCommandGood(line)
                                 bool=false;
                                 return;
                             end
-                        elseif regexp(instname2,'AMI')
-                             if ~(strcmp(prop2,'field'))
-                                bool=false;
-                                return;
-                            end
                         else
                             bool=false;
                             return;
@@ -240,11 +225,7 @@ function bool=IsCommandGood(line)
                         bool=false;
                         return;
                     end
-                elseif regexp(instname,'AMI')
-                     if ~(strcmp(prop,'field'))
-                        bool=false;
-                        return;
-                    end
+                    
                 else
                     bool=false;
                     return;

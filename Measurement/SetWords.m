@@ -184,16 +184,6 @@ function SetWords(data_object,gui_object,obj,splitcom)
                 throw(MException('','Cannot change DC voltage without a running AC+DC port'))
             end
         end
-    elseif regexp(instname,'AMI')
-        switch property
-            case 'field'
-                 fprintf(obj,['CONF:FIELD:TARG ',splitcom{3}]);
-            case 'ramp'
-                fprintf(obj,'RAMP')
-            case 'zero'
-                fprintf(obj,'ZERO')
-        end
-       
     end
     pause(pi);
 end

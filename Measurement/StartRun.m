@@ -65,15 +65,10 @@ function [SweepedStuff,m]=StartRun(data_object,gui_object,splitcom)
                     QueryMeta(data,gui,name);
                     instrumentsmetadata{i}=[data.Instruments{i}{1},obj.userdata{1}];
                 else
-                    try
-                        fopen(obj);
-                        fgets(obj); 
-                    catch
-                        
-                    end
+                    fopen(obj);
+                    fgets(obj);
                 end
-                %%% is it necessary??
-%                  break
+               break
             end
 
             % gather live metadata and store it

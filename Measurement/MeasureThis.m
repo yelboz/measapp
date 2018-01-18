@@ -5,11 +5,7 @@ function meas=MeasureThis(data,gui,Property)
     ss=strsplit(Property,'.');
     instname=ss{1};
     size=ss{2};
-    
-    % allows bluefors temperature to be measured from the log
-    if ~strcmp(instname,'bluefors')
-        obj=GetInst(data,gui,instname);
-    end
+    obj=GetInst(data,gui,instname);
     
     % measure by type
     if regexp(instname,'keithley')
@@ -82,25 +78,6 @@ function meas=MeasureThis(data,gui,Property)
                 % convertsion to Tesla
                 meas=0.1*str2double(d);
         end
-    elseif regexp(instname,'bluefors')
-        %% bluefors
-            bluefores_dir='C:\Users\user\Google Drive\Steinberg Lab\BlueFors\Log';
-            d=dir(bluefores_dir);
-            d=d(3:end);
-             [~,dx]=sort([d.datenum]);
-            newest = d(dx(end)).name;
-            log_dir=fullfile(bluefores_dir,newest);
-            d=dir(log_dir);
-            ind=size(end);
-            codename=['CH',ind,' T'];
-            for i=1:numel(d)
-                if (regexpi(d(i).name,codename))
-                    filename=fullfile(log_dir,d(i).name);
-                    text = fileread(filename);
-                    sep=strsplit(text,',');
-                    meas=str2double(sep{end});
-                end
-            end
     elseif regexp(instname,'caen')
         %% caen
         if regexp(size,'dcv')
@@ -126,8 +103,7 @@ function meas=MeasureThis(data,gui,Property)
                 meas = str2num(fgets(obj))
             end
         end
-    elseif regexp(instname,'AMI')
-        out=query(obj,'FIELD:MAG?');
-        meas=str2num(out);
+        
+       
     end
 end

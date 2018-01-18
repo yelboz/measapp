@@ -157,10 +157,5 @@ function QueryMeta(data,gui,name)
             lolimit,...
             vlimit};
         obj.userdata{1}=metadata;
-    elseif regexp(name,'AMI')
-        % AMI magnet
-        scanstr(obj);
-        scanstr(obj);
-        obj.userdata{1}='';
     end
 end

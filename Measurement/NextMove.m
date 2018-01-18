@@ -14,6 +14,7 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             case 'dcv'
                 % graudual movement of voltage
                 GoToVolt(obj,NM);
+                
             case 'dcc'
                 fprintf(obj,[':SOUR:CURR:LEV ',num2str(NM)]);
         end
@@ -182,26 +183,12 @@ function NextMove(data_object,gui_object,Sweepedthing,NM)
             if is_duck_running_AC
                 port = property(3);
                 data = sprintf('DC %s:%s', num2str(NM), port);
-                fprintf(obj,'%s\r', data);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                fprintf(obj,'%s\r', data);
             else
                 throw(MException('','Cannot change DC voltage without a running AC+DC port'))
             end
-        end
-    elseif regexp(instname,'AMI')
-        %% AMI magnet
-        switch property
-            case 'field'
-                eps=0.005;
-                fprintf(obj,['CONF:FIELD:TARG ',num2str(NM)]);
-                fprintf(obj,'RAMP');
-                out=query(obj,'FIELD:MAG?');
-                meas=str2num(out);
-                while abs(NM-meas)>eps
-                    data=guidata(data_object);
-                    out=query(obj,'FIELD:MAG?');
-                    meas=str2num(out);
-                    pause(2);
-                end
-        end
+        end      
+                   
     end
+    
 end

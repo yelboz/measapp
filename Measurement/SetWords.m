@@ -59,6 +59,15 @@ function SetWords(data_object,gui_object,obj,splitcom)
         %% magnet
         switch property
             
+            % if magnet is connected by ethernet set to remote before
+            % controlling. when done switch off remote.
+            case 'remote'
+                comm=splitcom{3};
+                if strcmp(comm,'on')
+                       fprintf(obj,'REMOTE');
+                else  fprintf(obj,'LOCAL');
+                end
+            
             % for moving field to limits\zero
             case 'sweep'
                 comm=splitcom{3};

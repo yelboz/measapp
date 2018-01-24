@@ -4,6 +4,7 @@ function obj=CreateInstrument(instrument)
     % gather instrument info
     InstName=instrument{1};
     InstInter=instrument{2};
+    InstAddress_raw=instrument{3};
     InstAddress=str2double(instrument{3});
     
     % create object according to interface type, userdata holds the instrument's
@@ -151,7 +152,39 @@ function obj=CreateInstrument(instrument)
             % Volt per Sec
             metadata={17, 80, 0.5};
             obj.userdata={metadata};
-
+        elseif  strcmp(InstInter,'ethernet')
+            ip=InstAddress_raw{1};
+            port=InstAddress_raw{2};
+            obj = instrfind('Type', 'tcpip', 'RemoteHost', ip, 'RemotePort', port, 'Tag', '');
+            if isempty(obj)
+                obj = tcpip(ip,port);
+            else
+                fclose(obj);
+                obj= obj(1);
+            end
+            if regexp(InstName,'magnet')
+                %% magnet
+                %         userdata- {metadata}
+                %         metadata- range1,...
+                %             range2,...
+                %             range3,...
+                %             range4,...
+                %             range5,...
+                %             rate1,...
+                %             rate2,...
+                %             rate3,...
+                %             rate4,...
+                %             rate5,...
+                %             rate6,...
+                %             hilimit,...
+                %             lolimit,...
+                %             vlimit
+                metadata={60,80,90,100,120,...
+                    0.12,0.08,0.04,0.02,0.005,1,0,-139.994,5};
+                obj.userdata={metadata};
+                fclose(obj);
+                
+            end
         end
     end
 end
